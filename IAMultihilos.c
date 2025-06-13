@@ -10,7 +10,7 @@
 
 int caras_detectadas = 0; //Contador para todas las caras detectadas por la camara
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER; //iniciamos la variable mutex (herramienta de sincronización)
-int detecciones[NUM_CAMARAS][IMAGENES_POR_CAMARAS];
+int detecciones[NUM_CAMARAS][IMAGENES_POR_CAMARAS]; //Creamos una matriz de detecciones
 
 void procesarImagen(int camara, int imagen){
     /*Se mostrará que la cámara está procesando una imagen, esto se realiza para poder ver el flujo del trabajo*/
@@ -21,13 +21,6 @@ void procesarImagen(int camara, int imagen){
     Se lo hace en microsegundos porque C solo tiene la función para sleep en segundos "sleep" y
     microsegundos "usleep", entonces si queremos trabajar en milisegundos, debemos usar microsegundos.*/
     usleep(100000); 
-}
-
-int cara_detectada(unsigned int *seed){ //Mandamos como parámetro la semilla
-    /*Va a retornar un número random entre 0 a 9 para simular que se encontró una cara. 
-    Es decir si el número random es menor que 3 (0,1,2) se devolverá 1, señalando una detección facial exitosa.
-    Por otro lado si no es menor que 3, se devolverá 0, indicando una detección facial fallida.*/
-    return rand_r(seed) % 10 < 3; //Se usa rand_r que es una versión segura para hilos (thread-safe)
 }
 
 void* procesarCamara(void* arg){
@@ -62,11 +55,10 @@ void* procesarCamara(void* arg){
             al contador*/
             pthread_mutex_unlock(&mutex);
         }
-        
-        /*Finalmente, se retorna NULL porque la función debe devolver un puntero void*,
-        para cumplir con lo que requiere el pthread_create*/
-        return NULL;
     }
+    /*Finalmente, se retorna NULL porque la función debe devolver un puntero void*,
+    para cumplir con lo que requiere el pthread_create*/
+    return NULL;
 }
 
 int main(){
