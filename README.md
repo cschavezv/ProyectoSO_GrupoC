@@ -59,7 +59,7 @@ IAMultihilos para la versión con hilos.
 
 IAProcesos para la versión con procesos.
 
-3️⃣ Ejecución
+### 3️⃣ Ejecución
 
 **Para ejecutar el programa multihilos:**
 
