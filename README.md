@@ -10,7 +10,7 @@ El propósito de este proyecto es comparar el rendimiento y el comportamiento en
 Ambos programas simulan un sistema de cámaras de vigilancia que procesan imágenes y detectan rostros. El sistema consta de:
 
 - 8 cámaras (simuladas como hilos o procesos según el programa).
-- Cada cámara procesa 5 imágenes.
+- Cada cámara procesa n imágenes (dependiendo lo que queremos simular).
 
 El código genera previamente la lista de detecciones para que ambos programas procesen exactamente los mismos datos, asegurando así una comparación justa del tiempo de ejecución.
 
@@ -87,7 +87,7 @@ IAProcesos para la versión con procesos.
 
 # 📓 Resultados
 
-## Caso 1
+## Caso 1 con sleep()
 
 ![Caso1 (2)](https://github.com/user-attachments/assets/a2b386c6-9ee9-4f03-a84d-28ce53d39953)
 ![Caso1](https://github.com/user-attachments/assets/573c2757-a5f2-4da4-aecb-201e7bda8a4b)
@@ -102,7 +102,7 @@ IAProcesos para la versión con procesos.
   
 - En este caso, se utilizó un mutex (pthread_mutex_t) para proteger el contador global de caras detectadas, evitando condiciones de carrera.
 
-## Caso 2
+## Caso 2 con sleep()
 
 ![Caso2 (2)](https://github.com/user-attachments/assets/c0174172-6160-470b-aab9-e92793c89056)
 ![Caso2](https://github.com/user-attachments/assets/3ea97eec-d26f-428d-8b4c-6a9740466cd2)
@@ -120,6 +120,14 @@ Aunque los hilos suelen ser más eficientes por compartir memoria y tener menos 
 - **Ruido del sistema:** Otros programas en ejecución pueden influir más en los hilos que en los procesos.
 
 En resumen, aunque los hilos son más eficientes en teoría, en ciertas condiciones reales los procesos pueden tener mejor rendimiento.
+
+## Caso 3 sin sleep()
+
+![image](https://github.com/user-attachments/assets/25e10bfc-02ab-44c3-a813-883757830c1a)
+![image](https://github.com/user-attachments/assets/fea77f35-a39c-437b-b5fb-4309f74a8d6a)
+
+Cuando la carga es artificial (como con usleep()), los hilos no muestran su ventaja real, cada hilo esperará al otro un tiempo determinado, pero esto no simula completamente el uso de CPU a la hora de correr el programa.
+Pero cuando hay trabajo real del CPU, los hilos son más eficientes que los procesos por su menor sobrecosto y mejor manejo de memoria, trabajan en paralelo en un mismo proceso compartiendo sus recursos. Mientras tanto, los procesos son independientes, cada cámara será un proceso y tendrá que determinar las n caras, lo cual es mucho menos eficiente.
 
 # ‼️Errores encontrados en la sincronización y su solución
 
