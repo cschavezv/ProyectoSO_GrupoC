@@ -15,12 +15,6 @@ int detecciones[NUM_CAMARAS][IMAGENES_POR_CAMARAS]; //Creamos una matriz de dete
 void procesarImagen(int camara, int imagen){
     /*Se mostrará que la cámara está procesando una imagen, esto se realiza para poder ver el flujo del trabajo*/
     printf("Camara %d procesando imagen %d ...\n", camara + 1, imagen); // Se suma 1 para mostrar cámaras del 1 al 8
-
-    /*Se hará una pausa de 100 ms (Milisegundos) para simular el uso del CPU.
-    La pausa se escribirá en 100000 microsegundos que es igual a 100 ms.
-    Se lo hace en microsegundos porque C solo tiene la función para sleep en segundos "sleep" y
-    microsegundos "usleep", entonces si queremos trabajar en milisegundos, debemos usar microsegundos.*/
-    usleep(100000); 
 }
 
 void* procesarCamara(void* arg){
