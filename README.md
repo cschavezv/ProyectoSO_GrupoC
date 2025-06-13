@@ -11,7 +11,6 @@ Ambos programas simulan un sistema de cámaras de vigilancia que procesan imáge
 
 - 8 cámaras (simuladas como hilos o procesos según el programa).
 - Cada cámara procesa 5 imágenes.
-- Cada imagen tiene un 30% de probabilidad de contener un rostro.
 
 El código genera previamente la lista de detecciones para que ambos programas procesen exactamente los mismos datos, asegurando así una comparación justa del tiempo de ejecución.
 
