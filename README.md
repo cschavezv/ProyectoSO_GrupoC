@@ -1,4 +1,3 @@
-# ProyectoSO_GrupoC
 # Proyecto de Comparación de Desempeño: Procesos vs Hilos en Detección de Caras
 
 ## 📌 Descripción General
@@ -50,7 +49,7 @@ gcc -pthread IAMultihilos.c -o IAMultihilos
 
 gcc -pthread IAProcesos.c -o IAProcesos
 
-# ⚠ Nota: La opción -pthread es necesaria para habilitar el soporte de threads en la biblioteca estándar de C.
+⚠ **Nota: La opción -pthread es necesaria para habilitar el soporte de threads en la biblioteca estándar de C.**
 
 ### 2️⃣ Generación del archivo ejecutable
 
