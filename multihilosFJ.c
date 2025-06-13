@@ -10,6 +10,11 @@
 int caras_detectadas = 0; //Contador para todas las caras detectadas por la camara
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER; //iniciamos la variable mutex (herramienta de sincronizacion)
 
+typedef struct { //La estructura almacena los parámetros que tendrá cada hilo
+    int camara; //Identificador de la cámara
+    unsigned int seed; //Semilla para generar números aleatorios dentro el hilo
+} ParametrosHilo;
+
 void procesarImagen(int camara, int imagen){
     /*Se mostrara que la cámara está procesando una imagen, esto se realiza para poder ver el flujo del trabajo*/
     printf("Camara %d procesando imagen %d ...\n", camara, imagen);
@@ -22,11 +27,12 @@ void procesarImagen(int camara, int imagen){
     usleep(100000); 
 }
 
-int cara_detectada(){
+int cara_detectada(unsigned int *seed){ //Mandamos como parámetro la semilla
     /*Va retornar un numero random entre 0 a 9 para simular que se encontro una cara, 
     es decir si el numero random es menor que 3 (0,1,2) se devolverá 1, señalando una detección facial exitosa,
     por otro lado si no es menor que 3, se devolvera 0, indicando una deteccion facil fallida.*/
-    return rand() % 10 < 3;
+    return rand_r(seed) % 10 < 3;
+    /*Se usa rand_r */
 }
 
 void* procesarCamara(void* arg){
