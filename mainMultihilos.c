@@ -1,6 +1,8 @@
 int main(){
     pthread_t hilos[NUM_CAMARAS]; //Se crea un arreglo de punteros identificadores del hilos 
-    int camaras_ids[NUM_CAMARAS]; //Se crea un arreglo que guardará el número de cámara que el hilo está simulando
+    ParametrosHilo parametros[NUM_CAMARAS]; //Se crea un arreglo de estructuras ParametrosHilo para poder asignar el id y la semilla
+    //correspondiente a cada hilo, es decir, cada hilo tendrá su id de 0-7 (1 a 8 en pantalla) y su semilla exclusiva
+    
     struct timespec inicio, fin; //Se declaran variables para medir el tiempo de ejecución del programa
     /*struct es una forma de agrupar varios datos relacionados en una sola variable. Es como un tipo de dato con distintos tipos de datos
     adentro. En este caso usaremos dos tipos de datos en el inicio y en el fin, para representar segundos y nanosegundos.
@@ -14,13 +16,16 @@ int main(){
 
     //Crea un hilo por cámara, con su id
     for (int i = 0; i < NUM_CAMARAS; i++){ //bloque for para recorrer los arreglos hilos y camaras_ids
-        camaras_ids[i] = i; //Asignamos a cada espacio un número (del 0 al 7) para que sea el número de cámara a simular
-        pthread_create(&hilos[i], NULL, procesarCamara, &camaras_ids[i]);
+        parametros[i].camara = i; //Asignamos a cada espacio un número (del 0 al 7) para que sea el número de cámara a simular
+        parametros[i].seed = time(NULL) ^ (i + pthread_self()); //Generar una semilla única para cada hilo
+        /*time(NULL) devuelve un número en segundos transcurridos desde el 1 de enero de 1970
+        (i + pthread_self()) suma el índice i con el id único de cada hilo obtenido mediante pthread_self()
+        Todo esto se concatena con un XOR para asegurarnos de que la semilla creada sea totalmente diferente en cada hilo*/
+        pthread_create(&hilos[i], NULL, procesarCamara, &parametros[i]);
         /*En el primer parámetro (pthread_t) se manda el puntero identificador del hilo correspondiente con i
         El segundo parámetro (pthread_attr_t) es el atributo de creación del hilo, mandamos NULL para que cree un hilo con atributos por defecto
         El tercer parámetro (void *(*)(void *)) es la función que se ejecutará como un hilo aparte, el hilo termina cuando la función lo hace
-        El cuarto parámetro (void *) es el parámetro que se le pasará a la función anterior cuando se ejecute el hilo aparte
-        No se usa solo &i en vez del arreglo camaras_ids porque los hilos pueden empezarse a ejecutar más tarde de lo que i aumenta*/
+        El cuarto parámetro (void *) es el parámetro que se le pasará a la función anterior cuando se ejecute el hilo aparte*/
     }
 
     //Esperar a que todos los hilos terminen antes de continuar
