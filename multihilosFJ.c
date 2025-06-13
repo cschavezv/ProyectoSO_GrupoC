@@ -52,7 +52,7 @@ void* procesarCamara(void* arg){
 
         //Luego de procesar la imagen se detecta de manera aleatoria si se detectó una cara con la ayuda de un "if"
 
-        if(cara_detectada()){
+        if(cara_detectada){
 
             /*Antes de que se modifique la variable (caras_detectadas), se necesita que un solo hilo a la vez acceda
             a ella, para evitar que varios hilos lleguen y modifiquen el valor de manera simultanea, ya que, eso genera
