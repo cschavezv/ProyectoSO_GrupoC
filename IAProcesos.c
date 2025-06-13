@@ -25,7 +25,7 @@ int detecciones[NUM_CAMARAS][IMAGENES_POR_CAMARA];
 // Simula el procesamiento de una imagen por una cámara
 void procesarImagen(int camara, int imagen){
     printf("Camara %d procesando imagen %d ...\n", camara, imagen);
-    usleep(100000); // Espera de 100 milisegundos para simular tiempo de CPU
+    
 }
 
 // Simula el trabajo de una cámara que procesa imágenes y reporta detecciones de caras
